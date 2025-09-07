@@ -2,13 +2,23 @@ db = db.getSiblingDB("blackjack");
 
 db.players.insertMany([
     {
-        name: "Initial Player 1",
-        score: 200,
-        createdAt: new Date()
-    },
-    {
-        name: "Initial Player 2",
-        score: 150,
-        createdAt: new Date()
-    }
+            name: "John Doe",
+            score: 120,
+            createdAt: new Date()
+        },
+        {
+            name: "Jane Smith",
+            score: 90,
+            createdAt: new Date()
+        },
+        {
+            name: "Robert Brown",
+            score: 150,
+            createdAt: new Date()
+        },
+        {
+            name: "Alice Williams",
+            score: 45,
+            createdAt: new Date()
+        }
 ]);
