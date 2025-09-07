@@ -1,5 +1,6 @@
 package org.itacademy.blacjackwebflux.controllers;
 
+import jakarta.validation.Valid;
 import org.itacademy.blacjackwebflux.dto.UpdatePlayerNameRequest;
 import org.itacademy.blacjackwebflux.model.mysql.Player;
 import org.itacademy.blacjackwebflux.service.PlayerService;
@@ -35,8 +36,7 @@ import reactor.core.publisher.Mono;
          * Respuesta exitosa: Código 200 OK con información actualizada del jugador.
          */
         @PutMapping("/player/{playerId}")
-        public Mono<Player> updatePlayerName(@PathVariable Long playerId, @RequestBody UpdatePlayerNameRequest request) {
-            // Puedes añadir validación para 'request.newName' (no nulo, no vacío)
+        public Mono<Player> updatePlayerName(@PathVariable Long playerId, @Valid @RequestBody UpdatePlayerNameRequest request) {
             return playerService.updatePlayerName(playerId, request.getNewName());
         }
     }
