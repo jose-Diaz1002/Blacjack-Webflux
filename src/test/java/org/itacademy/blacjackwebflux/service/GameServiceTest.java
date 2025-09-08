@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -49,7 +50,7 @@ public class GameServiceTest {
         String playerName = "NewTestPlayer";
         // Simula el comportamiento del repositorio:
         // 1. Cuando se busca por nombre, no encuentra nada
-        when(playerRepository.findByNameContainingIgnoreCase(playerName)).thenReturn(Mono.empty());
+        when(playerRepository.findByNameContainingIgnoreCase(playerName)).thenReturn(Flux.empty());
         // 2. Cuando se guarda un nuevo jugador, devuelve un Mono con el jugador guardado
         when(playerRepository.save(any(Player.class))).thenReturn(Mono.just(testPlayer));
         // 3. Cuando se guarda un nuevo juego, devuelve un Mono con el juego guardado
