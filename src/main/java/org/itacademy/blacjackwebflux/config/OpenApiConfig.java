@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Blackjack Reactive API",
                 version = "1.0",
-                description = "API para un juego de Blackjack desarrollado con Spring WebFlux y dos bases de datos.",
+                description = "Juego de Blackjack con Spring WebFlux.",
                 contact = @Contact(
                         name = "Jose Diaz",
                         email = "https://github.com/jose-Diaz1002"
