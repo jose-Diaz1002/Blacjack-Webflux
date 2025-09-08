@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BlacjackWebfluxApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(BlacjackWebfluxApplication.class, args);
     }
+
 
 }
