@@ -7,6 +7,6 @@ import reactor.core.publisher.Flux;
 
 @Repository
 public interface PlayerMongoRepository extends ReactiveMongoRepository<PlayerMongo, String> {
-    // Ejemplo de método de consulta personalizado para MongoDB
+
     Flux<PlayerMongo> findByNameContainingIgnoreCase(String name);
 }

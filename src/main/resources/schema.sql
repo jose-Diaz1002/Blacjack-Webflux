@@ -1,10 +1,3 @@
--- ====================================================
--- Blackjack Game - MySQL Schema Initialization Script
--- ====================================================
-
--- ------------------------------
--- Table: player
--- ------------------------------
 CREATE TABLE IF NOT EXISTS player (
                                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                       name VARCHAR(100) NOT NULL,
@@ -13,9 +6,6 @@ CREATE TABLE IF NOT EXISTS player (
     total_points INT DEFAULT 0
     );
 
--- ------------------------------
--- Table: game
--- ------------------------------
 CREATE TABLE IF NOT EXISTS game (
                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                     player_id BIGINT NOT NULL,
@@ -25,9 +15,6 @@ CREATE TABLE IF NOT EXISTS game (
     FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE
     );
 
--- ------------------------------
--- Table: move
--- ------------------------------
 CREATE TABLE IF NOT EXISTS move (
                                     id BIGINT AUTO_INCREMENT PRIMARY KEY,
                                     game_id BIGINT NOT NULL,
@@ -38,9 +25,6 @@ CREATE TABLE IF NOT EXISTS move (
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
     );
 
--- ------------------------------
--- View: player_ranking
--- ------------------------------
 CREATE OR REPLACE VIEW player_ranking AS
 SELECT
     id,

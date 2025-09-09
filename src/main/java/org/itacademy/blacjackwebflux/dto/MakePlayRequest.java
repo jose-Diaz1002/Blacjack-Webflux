@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class MakePlayRequest {
     private Move.MoveType moveType;
-    private BigDecimal bet; // Opcional, solo si aplica para la jugada
+    private BigDecimal bet;
 
     public Move.MoveType getMoveType() {
         return moveType;

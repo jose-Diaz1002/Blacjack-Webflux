@@ -1,50 +1,59 @@
 package org.itacademy.blacjackwebflux.controllers;
 
-
 import org.itacademy.blacjackwebflux.dto.UpdatePlayerNameRequest;
 import org.itacademy.blacjackwebflux.model.mysql.Player;
 import org.itacademy.blacjackwebflux.service.PlayerService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @WebFluxTest(PlayerController.class)
-public class PlayerControllerTest {
+class PlayerControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
 
-    @MockBean
+    @Autowired
     private PlayerService playerService;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public PlayerService playerService() {
+            return Mockito.mock(PlayerService.class);
+        }
+    }
 
     @Test
     void testUpdatePlayerName_Success() {
-        // Objeto de jugador de prueba
-        Player mockPlayer = new Player(1L, "NuevoNombre", 0, 0, 0);
+        // Arrange
+        Player mockPlayer = new Player(1L, "NuevoNombre", 10, 5, 100);
 
-        // Simulamos la respuesta del servicio cuando se llama a 'updatePlayerName'
-        when(playerService.updatePlayerName(anyLong(), anyString()))
+        when(playerService.updatePlayerName(eq(1L), eq("NuevoNombre")))
                 .thenReturn(Mono.just(mockPlayer));
 
-        // Cuerpo de la solicitud para la prueba
-        UpdatePlayerNameRequest request = new UpdatePlayerNameRequest("NuevoNombre");
-
-        // Ejecutamos la prueba con WebTestClient
+        // Act & Assert
         webTestClient.put()
-                .uri("/player/1")
+                .uri("/player/{id}", 1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(request)
-                .exchange() // Ejecuta la solicitud
-                .expectStatus().isOk() // Esperamos un código de estado 200 OK
-                .expectBody(Player.class) // Esperamos que la respuesta sea un objeto Player
-                .isEqualTo(mockPlayer); // Comprobamos que el objeto sea el que simulamos
+                .bodyValue(new UpdatePlayerNameRequest("NuevoNombre"))
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(1)
+                .jsonPath("$.name").isEqualTo("NuevoNombre")
+                .jsonPath("$.gamesPlayed").isEqualTo(10)
+                .jsonPath("$.gamesWon").isEqualTo(5)
+                .jsonPath("$.totalPoints").isEqualTo(100);
     }
+
 }

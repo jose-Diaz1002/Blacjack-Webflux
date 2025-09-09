@@ -22,10 +22,4 @@ public class GlobalExceptionHandler {
         return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails));
     }
 
-    // Puedes añadir más @ExceptionHandler para diferentes tipos de excepciones
-    // Por ejemplo, para manejar excepciones de validación si las implementas.
-    // @ExceptionHandler(WebExchangeBindException.class)
-    // public Mono<ResponseEntity<Map<String, Object>>> handleValidationExceptions(WebExchangeBindException ex) {
-    //    ...
-    // }
 }
