@@ -1,4 +1,3 @@
-// src/test/java/org/ItAcademy/BlacjackWebflux/service/GameServiceTest.java
 package org.itacademy.blacjackwebflux.service;
 
 import org.itacademy.blacjackwebflux.model.mysql.Game;

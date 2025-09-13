@@ -1,6 +1,5 @@
 package org.itacademy.blacjackwebflux.repository.mysql;
 
-
 import org.itacademy.blacjackwebflux.model.mysql.Game;
 import org.itacademy.blacjackwebflux.repositorio.mysql.GameRepository;
 import org.junit.jupiter.api.Test;
