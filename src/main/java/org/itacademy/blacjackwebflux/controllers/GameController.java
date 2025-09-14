@@ -21,7 +21,7 @@ public class GameController {
 
 
     @PostMapping("/new")
-    @ResponseStatus(HttpStatus.CREATED) // Código 201 para creación exitosa
+    @ResponseStatus(HttpStatus.CREATED)
     public Mono<Game> createNewGame(@RequestBody(required = false) CreateGameRequest request) {
         String playerName = (request != null) ? request.getPlayerName() : null;
         return gameService.createNewGame(playerName);
@@ -36,7 +36,6 @@ public class GameController {
 
     @PostMapping("/{id}/play")
     public Mono<Move> makePlay(@PathVariable Long id, @RequestBody MakePlayRequest request) {
-        // Podrías añadir validaciones aquí para 'request.moveType' y 'request.bet'
         return gameService.makePlay(id, request.getMoveType(), request.getBet());
     }
 
