@@ -35,7 +35,11 @@ Follow these steps to run the project locally:
 
 4.  Run the application:
     ```bash
-    ./mvnw spring-boot:run
+    ./mvnw spring-boot:run  
+    ```
+5.  API Documentation (Swagger)
+    ```bash
+    http://localhost:8080/swagger-ui.html
     ```
 
 ---
