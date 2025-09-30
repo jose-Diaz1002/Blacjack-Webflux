@@ -1,24 +1,24 @@
 CREATE TABLE IF NOT EXISTS player (
-                                      id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                      name VARCHAR(100) NOT NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
     games_played INT DEFAULT 0,
     games_won INT DEFAULT 0,
     total_points INT DEFAULT 0
     );
 
 CREATE TABLE IF NOT EXISTS game (
-                                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                    player_id BIGINT NOT NULL,
-                                    status ENUM('IN_PROGRESS', 'FINISHED') DEFAULT 'IN_PROGRESS',
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    player_id BIGINT NOT NULL,
+    status ENUM('IN_PROGRESS', 'WIN', 'LOSE', 'DRAW') DEFAULT 'IN_PROGRESS',
     start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     end_time TIMESTAMP NULL,
     FOREIGN KEY (player_id) REFERENCES player(id) ON DELETE CASCADE
     );
 
 CREATE TABLE IF NOT EXISTS move (
-                                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                    game_id BIGINT NOT NULL,
-                                    move_type ENUM('HIT', 'STAND', 'DOUBLE', 'SPLIT') NOT NULL,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    game_id BIGINT NOT NULL,
+    move_type ENUM('HIT', 'STAND', 'DOUBLE', 'SPLIT') NOT NULL,
     bet DECIMAL(10,2),
     result ENUM('WIN', 'LOSE', 'DRAW') DEFAULT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -30,6 +30,9 @@ public class Game {
 
     public enum GameStatus {
         IN_PROGRESS,
+        WIN,
+        LOSE,
+        DRAW,
         FINISHED
     }
 }

@@ -8,4 +8,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface GameRepository extends R2dbcRepository<Game, Long> {
     Flux<Game> findByPlayerId(Long playerId);
+
 }
