@@ -5,9 +5,9 @@ INSERT INTO player (id, name, games_played, games_won, total_points) VALUES
 (4, 'Alice Williams', 5, 2, 45);
 
 INSERT INTO game (id, player_id, status, start_time, end_time) VALUES
-(101, 1, 'FINISHED', '2025-09-06 10:00:00', '2025-09-06 10:05:00'),
-(102, 2, 'FINISHED', '2025-09-06 10:15:00', '2025-09-06 10:20:00'),
-(103, 3, 'FINISHED', '2025-09-06 11:00:00', '2025-09-06 11:10:00'),
+(101, 1, 'WIN', '2025-09-06 10:00:00', '2025-09-06 10:05:00'),
+(102, 2, 'LOSE', '2025-09-06 10:15:00', '2025-09-06 10:20:00'),
+(103, 3, 'DRAW', '2025-09-06 11:00:00', '2025-09-06 11:10:00'),
 (104, 4, 'IN_PROGRESS', '2025-09-06 11:30:00', NULL);
 
 INSERT INTO move (id, game_id, move_type, bet, result, timestamp) VALUES
