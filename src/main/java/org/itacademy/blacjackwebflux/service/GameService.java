@@ -1,6 +1,7 @@
 package org.itacademy.blacjackwebflux.service;
 
 
+import org.itacademy.blacjackwebflux.exeption.GameNotFoundException;
 import org.itacademy.blacjackwebflux.model.mysql.Game;
 import org.itacademy.blacjackwebflux.model.mysql.Move;
 import org.itacademy.blacjackwebflux.model.mysql.Player;
@@ -47,7 +48,7 @@ public class GameService {
 
     public Mono<Game> getGameDetails(Long gameId) {
         return gameRepository.findById(gameId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Partida no encontrada con ID: " + gameId))); // Manejo de partida no encontrada
+                .switchIfEmpty(Mono.error(new GameNotFoundException(gameId)));
     }
 
     public Mono<Move> makePlay(Long gameId, Move.MoveType moveType, BigDecimal bet) {
@@ -55,7 +56,7 @@ public class GameService {
                 .switchIfEmpty(Mono.error(new RuntimeException("Partida no encontrada con ID: " + gameId)))
                 .flatMap(game -> {
                     if (game.getStatus() == Game.GameStatus.FINISHED) {
-                        return Mono.error(new RuntimeException("La partida ya ha terminado."));
+                        return Mono.error(new GameNotFoundException(gameId));
                     }
 
                     Move newMove = new Move(null, gameId, moveType, bet, Move.MoveResult.DRAW, LocalDateTime.now());
@@ -74,7 +75,7 @@ public class GameService {
 
     public Mono<Void> deleteGame(Long gameId) {
         return gameRepository.findById(gameId)
-                .switchIfEmpty(Mono.error(new RuntimeException("Partida no encontrada con ID: " + gameId)))
+                .switchIfEmpty(Mono.error(new GameNotFoundException(gameId)))
                 .flatMap(gameRepository::delete);
     }
 }
