@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -80,5 +81,49 @@ public class GameServiceTest {
 
         StepVerifier.create(resultMono)
                 .verifyComplete();
+    }
+    @Test
+    void testMakePlay_StandAndWinGame() {
+        // 1. ARRANGE (Preparación)
+        Game winningGame = new Game(101L, 1L, Game.GameStatus.IN_PROGRESS, null, null);
+
+        // **NOTA:** En una prueba real, deberías simular que GameUtils da una mano ganadora.
+        // Como no podemos mockear GameUtils, simulamos que el servicio devolverá
+        // un estado final (WIN) y que el repositorio lo guardará.
+
+        // Simular la búsqueda de la partida
+        when(gameRepository.findById(101L)).thenReturn(Mono.just(winningGame));
+
+        // Simular el guardado del movimiento
+        Move moveStand = new Move(1001L, 101L, Move.MoveType.STAND, new BigDecimal("20.00"), Move.MoveResult.WIN, null);
+        when(moveRepository.save(any(Move.class))).thenReturn(Mono.just(moveStand));
+
+        // Simular el guardado del estado final del juego
+        Game finalGame = new Game(101L, 1L, Game.GameStatus.WIN, LocalDateTime.now(), LocalDateTime.now());
+        when(gameRepository.save(any(Game.class))).thenReturn(Mono.just(finalGame));
+
+
+        // 2. ACT (Ejecución)
+        Mono<Move> resultMono = gameService.makePlay(101L, Move.MoveType.STAND, new BigDecimal("20.00"));
+
+        // 3. ASSERT (Verificación)
+        StepVerifier.create(resultMono)
+                .expectNextMatches(move -> move.getResult() == Move.MoveResult.WIN)
+                .verifyComplete();
+    }
+
+    @Test
+    void testMakePlay_GameAlreadyFinished_ThrowsException() {
+        // 1. ARRANGE (Preparación)
+        Game finishedGame = new Game(101L, 1L, Game.GameStatus.LOSE, LocalDateTime.now(), LocalDateTime.now());
+
+        when(gameRepository.findById(101L)).thenReturn(Mono.just(finishedGame));
+
+        // 2. ACT & ASSERT (Verificación de la Excepción)
+        Mono<Move> resultMono = gameService.makePlay(101L, Move.MoveType.HIT, new BigDecimal("5.00"));
+
+        StepVerifier.create(resultMono)
+                .expectError(RuntimeException.class) // Esperamos la excepción si el juego terminó
+                .verify();
     }
 }

@@ -24,7 +24,6 @@ public class Move {
     @Column("move_type")
     private MoveType moveType;
 
-    private BigDecimal bet;
 
     private MoveResult result;
 

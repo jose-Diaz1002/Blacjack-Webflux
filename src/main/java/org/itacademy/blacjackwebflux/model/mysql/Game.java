@@ -22,6 +22,17 @@ public class Game {
 
     private GameStatus status;
 
+    // --- CAMPOS NUEVOS PARA LA LÓGICA JUGABLE ---
+    @Column("player_hand_json")
+    private String playerHandJson;
+
+    @Column("dealer_hand_json")
+    private String dealerHandJson;
+
+    @Column("current_deck_json") // Para guardar el estado del mazo restante
+    private String currentDeckJson;
+
+
     @Column("start_time")
     private LocalDateTime startTime;
 
